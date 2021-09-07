@@ -1,0 +1,19 @@
+{
+  "name": "SE",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css":"npx tailwindcss -i src/tailwind.css -o ./public/tailwind.css",
+    "watch":"npx onchange 'tailwind.config.js' tailwindcss -o tailwind.css --watch"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^10.3.4",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.11"
+  }
+}
