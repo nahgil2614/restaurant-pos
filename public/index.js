@@ -90,17 +90,18 @@ function addFoodList(name = "Food item", price = "100") {
     </div>
 
     <div class="food-update w-full mt-1 flex flex-row items-center justify-around ">
-        <button class="increase  btn"> +</button>
+        
+        <button class="decrease btn">-</button>
         <div class="bg-white rounded  w-5/12  border-black border-dashed ">
             <p class="text-center text-sm">Amount: <span class="food-amount">1</span> </p>
         </div>
-        <button class="decrease btn">-</button>
+        <button class="increase  btn"> +</button>
     </div>
 
 </div>
-<div class="text-gray-600 text-xs">
-    6:00 AM
-</div>
+<button class="  hover:bg-red-400 hover:text-blue-50 bg-gray-500 w-6 h-6 rounded-md text-white font-medium mb-2">
+                               X
+                            </button>
     `;
   food.innerHTML = foodcontent;
   
