@@ -1,3 +1,113 @@
+
+let most=[];
+let foodstore=[]
+foodmenu=[
+  ["The Noddel Italian","16","most"],
+  ["The crab soup","16","most"],
+  ["The Catelyzer","16","most"],
+  ["The Egg","16","most"],
+  ["Pizaa Aloha","12","most"],
+  ["Pizaa Blackninja","12","most"],
+  ["Fresh combo","13","most"],
+  ["french1","16","french"],
+  ["french2","15","french"],
+  ["french3","14","french"],
+  ["Pizaa Aloha","12","italian"],
+  ["Pizaa Blackninja","12","italian"],
+  ["Pasta","14","italian"],
+  ["Pancake","16","italian"],
+  ["Pizaa Magic","13","italian"],
+  ["Fresh meal","13","seafood"],
+  ["Fresh Combo","13","seafood"],
+  ["Fresh Shirmp","13","seafood"],
+  ["Fresh Oyester","13","seafood"],
+  ["Fresh Combo2","14","seafood"],
+]
+
+function createMenuView(){
+  let count=0
+  let curr=""
+  for(let i=0;i<foodmenu.length;i++){
+    let [fname,fprice,cate]=foodmenu[i];
+    if(i==0) curr=cate
+    if(cate != curr){
+      count=0
+      curr=cate
+    }
+    let src=cate+count
+    count++
+    //console.log(src);
+    createFood(fname,fprice,cate,src);
+  }
+}
+createMenuView();
+function createFood(fname,fprice,cate,imgname) {
+  let fooditem = document.createElement("div");
+  fooditem.classList.add("group", "ani", "fooditem", "relative");
+  let menuview = document.getElementsByClassName("menu-backet")[0];
+  let fooditemcontent = `<a class="block relative h-48 rounded overflow-hidden">
+<img
+  class="food-img w-full h-48 object-cover"
+  src="/public/img/${cate}/${imgname}.jpg"
+  alt="Image"
+/>
+</a>
+<div class="food-menu-detail mt-2">
+<h2 class="foodmenu text-gray-900 title-font text-lg font-bold">
+  ${fname}
+</h2>
+<p class="text-xs mt-0.5">A delicious food made with 100% passion</p>
+<p class="food-menu-price mt-0.5">$${fprice}</p>
+<p class="text-xs text-red-500 opacity-70 mb-1 font-medium">
+  *Long time cooking
+</p>
+</div>
+
+<button
+id="order"
+class="  bg-red-400 w-full rounded-md mt-2 text-blue-50 font-medium  h-8 mb-2"
+>
+Order
+</button>`;
+  fooditem.innerHTML = fooditemcontent;
+  // if(cate=="french") {
+  //   Frenchcategory.
+  //   fooditem.classList.add("hidden")
+  //   if(cate=="most") most.push(fooditem);
+  // }
+  if(cate!="most")fooditem.classList.add("hidden")
+  let arr=[fooditem,cate]
+  foodstore.push(arr);
+  //console.log(foodstore)
+  menuview.append(fooditem);
+};
+const filter=(val)=>{
+  for(let [fdiv,cate] of foodstore){
+    if(cate==val){
+      //console.log(cate)
+      fdiv.classList.remove("hidden");
+    }else fdiv.classList.add("hidden");
+  }
+}
+frenchbutton=document.getElementsByClassName("french")[0]
+frenchbutton.addEventListener('click',function (){
+  filter("french");
+});
+mostbutton=document.getElementsByClassName("most")[0]
+mostbutton.addEventListener('click',function(){
+  filter("most");
+})
+
+italianbutton=document.getElementsByClassName("italian")[0]
+italianbutton.addEventListener('click',function (){
+  filter("italian");
+});
+seafoodbutton=document.getElementsByClassName("seafood")[0]
+seafoodbutton.addEventListener('click',function (){
+  filter("seafood");
+});
+
+
 const s = document.querySelector("#split");
 const foodlist = document.querySelector("#foodbacket");
 let total=0;
@@ -29,13 +139,15 @@ for (let i = 0; i < orderList.length; i++) {
     let but = event.target;
     let par = but.parentElement;
     let detail = par.getElementsByClassName("food-menu-detail")[0];
-    console.log(detail);
+    
+    let img = par.getElementsByClassName("food-img")[0];
+    console.log(img.src.slice(21))
     let name = detail.getElementsByClassName("foodmenu")[0].innerText;
     let price = detail.getElementsByClassName("food-menu-price")[0].innerText;
     if(!foodmap.has(name)){
       backetList.push(0);
       foodmap.set(name,price);
-      addFoodList(name, price);
+      addFoodList(name, price,img.src.slice(21));
       updateButton();
       
     }else{
@@ -46,7 +158,6 @@ for (let i = 0; i < orderList.length; i++) {
         if(name==obname.innerText){
           let amount =ob.getElementsByClassName("food-amount")[0];
           amount.innerText=parseInt(amount.innerText)+1;
-          
         }
       }
     }
@@ -54,13 +165,13 @@ for (let i = 0; i < orderList.length; i++) {
     
     // console.log(name);
     // console.log(price);
-    updateTotal("plus");
+    // updateTotal("plus");
     document.querySelector("#foodbacketamount").innerText = backetList.length;
 
   });
 }
 
-function addFoodList(name = "Food item", price = "100") {
+function addFoodList(name = "Food item", price = "100",src) {
   console.log("asd");
   let food = document.createElement("div");
   food.classList.add(
@@ -77,7 +188,7 @@ function addFoodList(name = "Food item", price = "100") {
   var foodcontent = `
     <div class=" flex flex-col w-12 h-12 justify-center items-center  mr-4">
     <a href="#" class="block relative">
-        <img alt="profil" src="img/curry.jpg"
+        <img alt="profil" src=${src}
             class="mx-auto object-cover rounded-full h-10 w-10 " />
     </a>
     </div>
@@ -99,13 +210,14 @@ function addFoodList(name = "Food item", price = "100") {
     </div>
 
 </div>
-<button class="  hover:bg-red-400 hover:text-blue-50 bg-gray-500 w-6 h-6 rounded-md text-white font-medium mb-2">
+<button class="opacity-0 delete-button hover:bg-red-400 hover:text-blue-50 bg-gray-500 w-6 h-6 rounded-md text-white font-medium mb-2">
                                X
                             </button>
     `;
   food.innerHTML = foodcontent;
   
   backet.append(food);
+  updateTotal("plus")
 }
 
 function updateButton(event) {
@@ -129,8 +241,17 @@ function updateButton(event) {
       let par = event.target.parentElement;
       let foodamount = par.getElementsByClassName("food-amount")[0];
       let number = foodamount.innerText;
-      foodamount.innerText = parseInt(number, 10) - 1;
-      updateTotal("down")
+      
+      foodamount.innerText = parseInt(number, 10) - 1 >=0 ?parseInt(number, 10)-1:0;
+      let testing=par.parentElement.parentElement.getElementsByClassName("delete-button")[0]
+      if(foodamount.innerText=='0'){
+        testing.classList.remove("opacity-0")
+        testing.addEventListener('click',function(){
+         par.parentElement.parentElement.remove()
+        //  updateTotal("down")
+        })
+      }
+      
     });
   }
 
@@ -152,3 +273,5 @@ function updateTotal(change){
     document.getElementsByClassName("total")[0].innerText='$'+total;
   }
 }
+
+

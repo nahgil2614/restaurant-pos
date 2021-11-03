@@ -6652,7 +6652,7 @@ video {
 }
 
 .w-24 {
-  width: 23%;
+  width: 24%;
 }
 
 .w-28 {
@@ -32314,8 +32314,28 @@ video {
 
 @media (min-width: 1024px) {
   .fooditem {
-    width: 23%;
+    width: 24%;
   }
+}
+
+.ani{
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.ani:hover {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+}
+
+.ani {
+  transition-duration: 300ms;
 }
 
 @media (min-width: 640px) {
@@ -38371,7 +38391,7 @@ video {
   }
 
   .sm\:w-24 {
-    width: 23%;
+    width: 24%;
   }
 
   .sm\:w-28 {
@@ -69607,7 +69627,7 @@ video {
   }
 
   .md\:w-24 {
-    width: 23%;
+    width: 24%;
   }
 
   .md\:w-28 {
@@ -100843,7 +100863,7 @@ video {
   }
 
   .lg\:w-24 {
-    width: 23%;
+    width: 24%;
   }
 
   .lg\:w-28 {
@@ -132079,7 +132099,7 @@ video {
   }
 
   .xl\:w-24 {
-    width: 23%;
+    width: 24%;
   }
 
   .xl\:w-28 {
@@ -163315,7 +163335,7 @@ video {
   }
 
   .\32xl\:w-24 {
-    width: 23%;
+    width: 24%;
   }
 
   .\32xl\:w-28 {

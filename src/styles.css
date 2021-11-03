@@ -18,3 +18,6 @@
 .fooditem{
   @apply bg-gray-50 lg:w-24 md:w-1/3 mr-2 p-2  w-4/5 mb-2 shadow-lg h-3/4  rounded-md;
 }
+.ani{
+  @apply transform duration-300 hover:scale-110;
+}
