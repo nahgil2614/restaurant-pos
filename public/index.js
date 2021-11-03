@@ -180,6 +180,7 @@ for (let i = 0; i < orderList.length; i++) {
     // console.log(price);
     // updateTotal("plus");
     // document.querySelector("#foodbacketamount").innerText = backetList.length;
+    updateTotalTest()
 
   });
 }
