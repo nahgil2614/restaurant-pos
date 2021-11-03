@@ -82,6 +82,18 @@ Order
   menuview.append(fooditem);
 };
 const filter=(val)=>{
+  let t =document.getElementsByClassName("title")[0];
+  if(val=="most"){
+    t.innerText="Most Popular";
+  } else if(val=="french"){
+    t.innerText="French Food";
+  }else if(val=="italian"){
+    t.innerText="Italian Food";
+  }else if(val=="seafood"){
+    t.innerText="Seafood Food";
+  }else if(val=="Desert"){
+    t.innerText="Desert";
+  }
   for(let [fdiv,cate] of foodstore){
     if(cate==val){
       //console.log(cate)
