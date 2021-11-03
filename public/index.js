@@ -134,6 +134,7 @@ s.addEventListener("click", () => {
     document.querySelector("#fooditem").classList.add("col-span-11");
     document.querySelector("#fooditem").classList.remove("col-span-8");
   }
+  updateTotalTest();
 });
 // split_menu.addEventListener("click", ()=>{
 //     foodlist.classList.add("hidden");
@@ -178,7 +179,7 @@ for (let i = 0; i < orderList.length; i++) {
     // console.log(name);
     // console.log(price);
     // updateTotal("plus");
-    document.querySelector("#foodbacketamount").innerText = backetList.length;
+    // document.querySelector("#foodbacketamount").innerText = backetList.length;
 
   });
 }
@@ -229,7 +230,8 @@ function addFoodList(name = "Food item", price = "100",src) {
   food.innerHTML = foodcontent;
   
   backet.append(food);
-  updateTotal("plus")
+  //updateTotal("plus")
+  updateTotalTest();
 }
 
 function updateButton(event) {
@@ -243,7 +245,8 @@ function updateButton(event) {
       let foodamount = par.getElementsByClassName("food-amount")[0];
       let number = foodamount.innerText;
       foodamount.innerText = parseInt(number, 10) + 1;
-      updateTotal("plus")
+      //updateTotal("plus")
+      updateTotalTest()
     });
   }
 
@@ -255,15 +258,17 @@ function updateButton(event) {
       let number = foodamount.innerText;
       
       foodamount.innerText = parseInt(number, 10) - 1 >=0 ?parseInt(number, 10)-1:0;
+      // updateTotal("down")
       let testing=par.parentElement.parentElement.getElementsByClassName("delete-button")[0]
+      
       if(foodamount.innerText=='0'){
         testing.classList.remove("opacity-0")
         testing.addEventListener('click',function(){
          par.parentElement.parentElement.remove()
-        //  updateTotal("down")
+         updateTotalTest();
         })
       }
-      
+      updateTotalTest();
     });
   }
 
@@ -286,4 +291,19 @@ function updateTotal(change){
   }
 }
 
-
+function updateTotalTest(){
+  let total=0
+  let foodlist=document.getElementsByClassName("food-details");
+  for(let i=0;i<foodlist.length;i++){
+    // let fname=foodlist[i].getElementsByClassName("food-name")[0].innerText;
+    let amount=foodlist[i].getElementsByClassName("food-amount")[0].innerText;
+    let price=foodlist[i].getElementsByClassName("food-price")[0].innerText.slice(1)
+    console.log(price)
+    let totalprice= document.getElementsByClassName("total")[0].innerText;
+    //let p=parseFloat(foodmap.get(fname).slice(1));
+    let p=parseFloat(price)*parseFloat(amount);
+    total+=p
+    
+  }
+  document.getElementsByClassName("total")[0].innerText='$'+total;
+}
