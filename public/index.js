@@ -48,7 +48,7 @@ function createFood(fname,fprice,cate,imgname) {
   let fooditemcontent = `<a class="block relative h-48 rounded overflow-hidden">
 <img
   class="food-img w-full h-48 object-cover"
-  src="/public/img/${cate}/${imgname}.jpg"
+  src="img/${cate}/${imgname}.jpg"
   alt="Image"
 />
 </a>
