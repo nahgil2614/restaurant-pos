@@ -68,7 +68,12 @@ id="order"
 class="  bg-red-400 w-full rounded-md mt-2 text-blue-50 font-medium  h-8 mb-2"
 >
 Order
-</button>`;
+</button>
+<div class="info absolute top-4 p-1 rounded-sm right-4 text-white bg-gray-800 cursor-pointer">
+  Info
+</div>
+
+`;
   fooditem.innerHTML = fooditemcontent;
   // if(cate=="french") {
   //   Frenchcategory.
@@ -160,6 +165,7 @@ for (let i = 0; i < orderList.length; i++) {
     if(!foodmap.has(name)){
       backetList.push(0);
       foodmap.set(name,price);
+      console.log(img.src);
       addFoodList(name, price,img.src.slice(21));
       updateButton();
       
@@ -307,4 +313,21 @@ function updateTotalTest(){
     
   }
   document.getElementsByClassName("total")[0].innerText='$'+total;
+}
+
+
+let cursor=document.getElementsByClassName("info")
+for(let i=0;i<cursor.length;i++){
+  cursor[i].addEventListener('click',function(){
+    
+   document.getElementsByClassName("info-view")[0].classList.remove("hidden");
+    
+  })
+
+}
+
+
+
+function myFunction(event) {
+  document.getElementsByClassName("info-view")[0].classList.add("hidden")
 }
