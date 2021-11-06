@@ -1,8 +1,8 @@
-
+let arr=Array(100).fill(0);
 let most=[];
 let foodstore=[]
 foodmenu=[
-  ["The Noddel Italian","16","most"],
+  ["The Italian Pasta","16","most"],
   ["The crab soup","16","most"],
   ["The Catelyzer","16","most"],
   ["The Egg","16","most"],
@@ -58,8 +58,8 @@ function createFood(fname,fprice,cate,imgname) {
 </h2>
 <p class="text-xs mt-0.5">A delicious food made with 100% passion</p>
 <p class="food-menu-price mt-0.5">$${fprice}</p>
-<p class="text-xs text-red-500 opacity-70 mb-1 font-medium">
-  *Long time cooking
+<p class="text-xs text-green-600 opacity-70 mb-1 font-medium">
+  *Available
 </p>
 </div>
 
@@ -151,6 +151,7 @@ orderList = document.querySelectorAll("#order");
 foodname=[]
 foodmap=new Map();
 foodamount=new Map();
+let set=false;
 for (let i = 0; i < orderList.length; i++) {
   orderList[i].addEventListener("click", function (event) {
     
@@ -165,8 +166,9 @@ for (let i = 0; i < orderList.length; i++) {
     if(!foodmap.has(name)){
       backetList.push(0);
       foodmap.set(name,price);
-      console.log(img.src);
+      //console.log(img.src);
       addFoodList(name, price,img.src.slice(21));
+      
       updateButton();
       
     }else{
@@ -230,53 +232,58 @@ function addFoodList(name = "Food item", price = "100",src) {
     </div>
 
 </div>
-<button class="opacity-0 delete-button hover:bg-red-400 hover:text-blue-50 bg-gray-500 w-6 h-6 rounded-md text-white font-medium mb-2">
+<button class=" delete-button hover:bg-red-400 hover:text-blue-50 bg-gray-500 w-6 h-6 rounded-md text-white font-medium mb-2">
                                X
-                            </button>
+</button>
     `;
   food.innerHTML = foodcontent;
   
   backet.append(food);
+  addRemove();
   //updateTotal("plus")
   updateTotalTest();
 }
-
+let checkincrease= Array(100).fill(0);
+let checkdecrease= Array(100).fill(0);
 function updateButton(event) {
   increaseButton = document.getElementsByClassName("increase");
   for (let i = 0; i < increaseButton.length; i++) {
-    increaseButton[i].addEventListener("click", function (event) {
-      
-      let par = event.target.parentElement;
-      // let foodname=foodamount.parentElement;
-      
-      let foodamount = par.getElementsByClassName("food-amount")[0];
-      let number = foodamount.innerText;
-      foodamount.innerText = parseInt(number, 10) + 1;
-      //updateTotal("plus")
-      updateTotalTest()
-    });
+    if(checkincrease[i]==0){
+      increaseButton[i].addEventListener("click", function (event) {
+        let par = event.target.parentElement;
+        // let foodname=foodamount.parentElement;
+        let foodamount = par.getElementsByClassName("food-amount")[0];
+        let number = foodamount.innerText;
+        foodamount.innerText = parseInt(number, 10) + 1;
+        //updateTotal("plus")
+        updateTotalTest()
+      });
+      checkincrease[i]=1
+    }
   }
+
+
 
   decreaseButton = document.getElementsByClassName("decrease");
   for (let i = 0; i < decreaseButton.length; i++) {
-    decreaseButton[i].addEventListener("click", function (event) {
-      let par = event.target.parentElement;
-      let foodamount = par.getElementsByClassName("food-amount")[0];
-      let number = foodamount.innerText;
-      
-      foodamount.innerText = parseInt(number, 10) - 1 >=0 ?parseInt(number, 10)-1:0;
-      // updateTotal("down")
-      let testing=par.parentElement.parentElement.getElementsByClassName("delete-button")[0]
-      
-      if(foodamount.innerText=='0'){
-        testing.classList.remove("opacity-0")
-        testing.addEventListener('click',function(){
-         par.parentElement.parentElement.remove()
-         updateTotalTest();
-        })
+      if(checkdecrease[i]==0){
+        decreaseButton[i].addEventListener("click", function (event) {
+          let par = event.target.parentElement;
+          let foodamount = par.getElementsByClassName("food-amount")[0];
+          let number = foodamount.innerText;
+          
+          foodamount.innerText = parseInt(number, 10) - 1 >=1 ?parseInt(number, 10)-1:1;
+          // updateTotal("down")
+          // let testing=par.parentElement.parentElement.parentElement.getElementsByClassName("delete-button")[0]
+          //   testing.addEventListener('click',function(){
+          //    par.parentElement.parentElement.remove()
+          //    updateTotalTest();
+          //   })
+         
+          updateTotalTest();
+        });
+        checkdecrease[i]=1;
       }
-      updateTotalTest();
-    });
   }
 
 }
@@ -330,4 +337,15 @@ for(let i=0;i<cursor.length;i++){
 
 function myFunction(event) {
   document.getElementsByClassName("info-view")[0].classList.add("hidden")
+}
+
+
+function addRemove(){
+  let p=document.getElementsByClassName("delete-button");
+for(let i=0;i<p.length;i++){
+  p[i].addEventListener('click',function(event){
+    let parent=event.target.parentElement.remove();
+    updateTotalTest();
+})
+}
 }
