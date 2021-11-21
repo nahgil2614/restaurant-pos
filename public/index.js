@@ -1,46 +1,48 @@
-let arr=Array(100).fill(0);
-let most=[];
-let foodstore=[]
-foodmenu=[
-  ["The Italian Pasta","16","most"],
-  ["The crab soup","16","most"],
-  ["The Catelyzer","16","most"],
-  ["The Egg","16","most"],
-  ["Pizaa Aloha","12","most"],
-  ["Pizaa Blackninja","12","most"],
-  ["Fresh combo","13","most"],
-  ["french1","16","french"],
-  ["french2","15","french"],
-  ["french3","14","french"],
-  ["Pizaa Aloha","12","italian"],
-  ["Pizaa Blackninja","12","italian"],
-  ["Pasta","14","italian"],
-  ["Pancake","16","italian"],
-  ["Pizaa Magic","13","italian"],
-  ["Fresh meal","13","seafood"],
-  ["Fresh Combo","13","seafood"],
-  ["Fresh Shirmp","13","seafood"],
-  ["Fresh Oyester","13","seafood"],
-  ["Fresh Combo2","14","seafood"],
-]
+// Import the functions you need from the SDKs you need
+//import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app-compat.js";
+//import { getAnalytics } from "firebase/analytics";
+//import { getFirestore, collection } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore-compat.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-function createMenuView(){
-  let count=0
-  let curr=""
-  for(let i=0;i<foodmenu.length;i++){
-    let [fname,fprice,cate]=foodmenu[i];
-    if(i==0) curr=cate
-    if(cate != curr){
-      count=0
-      curr=cate
-    }
-    let src=cate+count
-    count++
-    //console.log(src);
-    createFood(fname,fprice,cate,src);
-  }
-}
-createMenuView();
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDHSnODhZAlcuaEmOdrHgHt6s4wz1wc5pQ",
+  authDomain: "restaurant-pos-47810.firebaseapp.com",
+  projectId: "restaurant-pos-47810",
+  storageBucket: "restaurant-pos-47810.appspot.com",
+  messagingSenderId: "509910814482",
+  appId: "1:509910814482:web:bedfe4bd55b264a4de2dcb",
+  measurementId: "G-E4GN1V1HBK"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+//const analytics = getAnalytics(app);
+const db = app.firestore();
+const foodsCol = db.collection('foods');
+
+var arr=Array(100).fill(0);
+var most=[];
+var foodstore=[];
+var foodmenu=[];
+
+var s = [];
+var foodlist = [];
+var total=0;
+
+var backetList = [];
+
+var orderList = [];
+var foodname=[]
+var foodmap=new Map();
+var foodamount=new Map();
+var set=false;
+
+var checkincrease= Array(100).fill(0);
+var checkdecrease= Array(100).fill(0);
+
 function createFood(fname,fprice,cate,imgname) {
   let fooditem = document.createElement("div");
   fooditem.classList.add("group", "ani", "fooditem", "relative");
@@ -86,112 +88,6 @@ Order
   //console.log(foodstore)
   menuview.append(fooditem);
 };
-const filter=(val)=>{
-  let t =document.getElementsByClassName("title")[0];
-  if(val=="most"){
-    t.innerText="Most Popular";
-  } else if(val=="french"){
-    t.innerText="French Food";
-  }else if(val=="italian"){
-    t.innerText="Italian Food";
-  }else if(val=="seafood"){
-    t.innerText="Seafood Food";
-  }else if(val=="Desert"){
-    t.innerText="Desert";
-  }
-  for(let [fdiv,cate] of foodstore){
-    if(cate==val){
-      //console.log(cate)
-      fdiv.classList.remove("hidden");
-    }else fdiv.classList.add("hidden");
-  }
-}
-frenchbutton=document.getElementsByClassName("french")[0]
-frenchbutton.addEventListener('click',function (){
-  filter("french");
-});
-mostbutton=document.getElementsByClassName("most")[0]
-mostbutton.addEventListener('click',function(){
-  filter("most");
-})
-
-italianbutton=document.getElementsByClassName("italian")[0]
-italianbutton.addEventListener('click',function (){
-  filter("italian");
-});
-seafoodbutton=document.getElementsByClassName("seafood")[0]
-seafoodbutton.addEventListener('click',function (){
-  filter("seafood");
-});
-
-
-const s = document.querySelector("#split");
-const foodlist = document.querySelector("#foodbacket");
-let total=0;
-s.addEventListener("click", () => {
-  if (foodlist.classList.contains("hidden")) {
-    //console.log("asd");
-    document.querySelector("#fooditem").classList.add("col-span-8");
-    document.querySelector("#fooditem").classList.remove("col-span-11");
-    foodlist.classList.remove("hidden");
-  } else {
-    foodlist.classList.add("hidden");
-    document.querySelector("#fooditem").classList.add("col-span-11");
-    document.querySelector("#fooditem").classList.remove("col-span-8");
-  }
-  updateTotalTest();
-});
-// split_menu.addEventListener("click", ()=>{
-//     foodlist.classList.add("hidden");
-//     console.log("hello")
-//   });
-let backetList = [];
-
-orderList = document.querySelectorAll("#order");
-foodname=[]
-foodmap=new Map();
-foodamount=new Map();
-let set=false;
-for (let i = 0; i < orderList.length; i++) {
-  orderList[i].addEventListener("click", function (event) {
-    
-    let but = event.target;
-    let par = but.parentElement;
-    let detail = par.getElementsByClassName("food-menu-detail")[0];
-    
-    let img = par.getElementsByClassName("food-img")[0];
-    console.log(img.src.slice(21))
-    let name = detail.getElementsByClassName("foodmenu")[0].innerText;
-    let price = detail.getElementsByClassName("food-menu-price")[0].innerText;
-    if(!foodmap.has(name)){
-      backetList.push(0);
-      foodmap.set(name,price);
-      //console.log(img.src);
-      addFoodList(name, price,img.src.slice(21));
-      
-      updateButton();
-      
-    }else{
-      //foodamount.set(name,foodamount.get(name)+1);
-      let foodlist=document.getElementsByClassName("food-details");
-      for(let ob of foodlist){
-        let obname =ob.getElementsByClassName("food-name")[0];
-        if(name==obname.innerText){
-          let amount =ob.getElementsByClassName("food-amount")[0];
-          amount.innerText=parseInt(amount.innerText)+1;
-        }
-      }
-    }
-    
-    
-    // console.log(name);
-    // console.log(price);
-    // updateTotal("plus");
-    // document.querySelector("#foodbacketamount").innerText = backetList.length;
-    updateTotalTest()
-
-  });
-}
 
 function addFoodList(name = "Food item", price = "100",src) {
   console.log("asd");
@@ -243,12 +139,13 @@ function addFoodList(name = "Food item", price = "100",src) {
   //updateTotal("plus")
   updateTotalTest();
 }
-let checkincrease= Array(100).fill(0);
-let checkdecrease= Array(100).fill(0);
+
 function updateButton(event) {
-  increaseButton = document.getElementsByClassName("increase");
+  console.log('in updateButton()')
+  let increaseButton = document.getElementsByClassName("increase");
   for (let i = 0; i < increaseButton.length; i++) {
-    if(checkincrease[i]==0){
+    if(increaseButton[i].getAttribute('listener') !== 'true') {
+      increaseButton[i].setAttribute('listener', 'true');
       increaseButton[i].addEventListener("click", function (event) {
         let par = event.target.parentElement;
         // let foodname=foodamount.parentElement;
@@ -258,15 +155,15 @@ function updateButton(event) {
         //updateTotal("plus")
         updateTotalTest()
       });
-      checkincrease[i]=1
     }
   }
 
 
 
-  decreaseButton = document.getElementsByClassName("decrease");
+  let decreaseButton = document.getElementsByClassName("decrease");
   for (let i = 0; i < decreaseButton.length; i++) {
-      if(checkdecrease[i]==0){
+      if(decreaseButton[i].getAttribute('listener') !== 'true') {
+        decreaseButton[i].setAttribute('listener', 'true');
         decreaseButton[i].addEventListener("click", function (event) {
           let par = event.target.parentElement;
           let foodamount = par.getElementsByClassName("food-amount")[0];
@@ -288,22 +185,6 @@ function updateButton(event) {
 
 }
 
-function updateTotal(change){
-  let foodlist=document.getElementsByClassName("food-details");
-  for(let i=1;i<foodlist.length;i++){
-    let fname=foodlist[i].getElementsByClassName("food-name")[0].innerText;
-    let amount=foodlist[i].getElementsByClassName("food-amount")[0].innerText;
-    
-    let totalprice= document.getElementsByClassName("total")[0].innerText;
-    let p=parseFloat(foodmap.get(fname).slice(1));
-    if(change=="plus")total = total+p;
-    else {
-      total=total -p >=0 ?total -p:0;
-      
-    }
-    document.getElementsByClassName("total")[0].innerText='$'+total;
-  }
-}
 
 function updateTotalTest(){
   let total=0
@@ -323,29 +204,155 @@ function updateTotalTest(){
 }
 
 
-let cursor=document.getElementsByClassName("info")
-for(let i=0;i<cursor.length;i++){
-  cursor[i].addEventListener('click',function(){
-    
-   document.getElementsByClassName("info-view")[0].classList.remove("hidden");
-    
-  })
-
-}
-
-
-
-function myFunction(event) {
-  document.getElementsByClassName("info-view")[0].classList.add("hidden")
-}
-
-
 function addRemove(){
   let p=document.getElementsByClassName("delete-button");
-for(let i=0;i<p.length;i++){
-  p[i].addEventListener('click',function(event){
-    let parent=event.target.parentElement.remove();
+  for(let i=0;i<p.length;i++){
+    p[i].addEventListener('click',function(event){
+      let parent = event.target.parentElement;
+      let details = parent.getElementsByClassName("food-details")[0];
+      let name = details.getElementsByClassName("food-name")[0].innerText;
+      let decreaseButton = details.getElementsByClassName("food-update")[0].getElementsByClassName("decrease")[0];
+      let increaseButton = details.getElementsByClassName("food-update")[0].getElementsByClassName("increase")[0];
+      foodmap.delete(name);
+      decreaseButton.setAttribute('listener', 'false');
+      increaseButton.setAttribute('listener', 'false');
+      parent.remove();
+      updateTotalTest();
+    })
+  }
+}
+
+// create menu view
+foodsCol.get().then((snapshot) => {
+  snapshot.docs.forEach(doc => {
+    let data = doc.data();
+    foodmenu.push([data.name, data.price, data.category]);
+  })
+  // sort foodmenu by category
+  foodmenu.sort(function(a,b) {
+    if (a[2] < b[2]) return -1;
+    if (a[2] > b[2]) return 1;
+    return 0;
+  });
+
+  let count=0;
+  let curr="";
+
+  for(let i=0;i<foodmenu.length;i++){
+    let [fname,fprice,cate]=foodmenu[i];
+    if(i==0) curr=cate
+    if(cate != curr){
+      count=0
+      curr=cate
+    }
+    let src=cate+count
+    count++
+    console.log(src);
+    createFood(fname,fprice,cate,src);
+  }
+
+  s = document.querySelector("#split");
+  foodlist = document.querySelector("#foodbacket");
+  s.addEventListener("click", () => {
+    if (foodlist.classList.contains("hidden")) {
+      console.log("asd");
+      document.querySelector("#fooditem").classList.add("col-span-8");
+      document.querySelector("#fooditem").classList.remove("col-span-11");
+      foodlist.classList.remove("hidden");
+    } else {
+      foodlist.classList.add("hidden");
+      document.querySelector("#fooditem").classList.add("col-span-11");
+      document.querySelector("#fooditem").classList.remove("col-span-8");
+    }
     updateTotalTest();
+  });
+
+  let orderList = document.querySelectorAll("#order");
+  for (let i = 0; i < orderList.length; i++) {
+    orderList[i].addEventListener("click", function (event) {
+      
+      let but = event.target;
+      let par = but.parentElement;
+      let detail = par.getElementsByClassName("food-menu-detail")[0];
+      
+      let img = par.getElementsByClassName("food-img")[0];
+      console.log(img.src.slice(21))
+      let name = detail.getElementsByClassName("foodmenu")[0].innerText;
+      let price = detail.getElementsByClassName("food-menu-price")[0].innerText;
+      if(!foodmap.has(name)){
+        backetList.push(0);
+        foodmap.set(name,price);
+        //console.log(img.src);
+        addFoodList(name, price,img.src.slice(21));
+        
+        updateButton();
+        
+      }else{
+        //foodamount.set(name,foodamount.get(name)+1);
+        let foodlist=document.getElementsByClassName("food-details");
+        for(let ob of foodlist){
+          let obname =ob.getElementsByClassName("food-name")[0];
+          if(name==obname.innerText){
+            let amount =ob.getElementsByClassName("food-amount")[0];
+            amount.innerText=parseInt(amount.innerText)+1;
+          }
+        }
+      }
+      
+      
+      // console.log(name);
+      // console.log(price);
+      // updateTotal("plus");
+      // document.querySelector("#foodbacketamount").innerText = backetList.length;
+      updateTotalTest()
+
+    });
+  }
+
+  let cursor=document.getElementsByClassName("info")
+  for(let i=0;i<cursor.length;i++){
+    cursor[i].addEventListener('click',function(){
+      
+     document.getElementsByClassName("info-view")[0].classList.remove("hidden");
+      
+    })
+  }
+});
+
+const filter=(val)=>{
+  let t =document.getElementsByClassName("title")[0];
+  if(val=="most"){
+    t.innerText="Most Popular";
+  } else if(val=="french"){
+    t.innerText="French Food";
+  }else if(val=="italian"){
+    t.innerText="Italian Food";
+  }else if(val=="seafood"){
+    t.innerText="Seafood Food";
+  }else if(val=="Desert"){
+    t.innerText="Desert";
+  }
+  for(let [fdiv,cate] of foodstore){
+    if(cate==val){
+      //console.log(cate)
+      fdiv.classList.remove("hidden");
+    }else fdiv.classList.add("hidden");
+  }
+}
+let frenchbutton=document.getElementsByClassName("french")[0]
+frenchbutton.addEventListener('click',function (){
+  filter("french");
+});
+let mostbutton=document.getElementsByClassName("most")[0]
+mostbutton.addEventListener('click',function(){
+  filter("most");
 })
-}
-}
+
+let italianbutton=document.getElementsByClassName("italian")[0]
+italianbutton.addEventListener('click',function (){
+  filter("italian");
+});
+let seafoodbutton=document.getElementsByClassName("seafood")[0]
+seafoodbutton.addEventListener('click',function (){
+  filter("seafood");
+});
