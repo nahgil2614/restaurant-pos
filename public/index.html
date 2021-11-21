@@ -112,69 +112,77 @@
     </section>
 
     <section class="pt-12 pb-12 bg-red-50">
-      <div class="container flex items-center justify-center p-6 mx-auto bg-white shadow-lg sm:p-12 md:w-1/2">
-        <div class="w-full">
+      <form id="reservation-form">
+        <div class="container flex items-center justify-center p-6 mx-auto bg-white shadow-lg sm:p-12 md:w-1/2">
+          <div class="w-full">
 
-          <h1
-            class="mb-4 text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
-            Table Reservation
-          </h1>
-          <div class="gap-2 mb-8 lg:flex">
-            <div class="w-full">
-              <label class="block text-base">
-                Your Name
-              </label>
-              <input type="text"
-                class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
-                placeholder="Your Name" />
+            <h1
+              class="mb-4 text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+              Table Reservation
+            </h1>
+            <div class="gap-2 mb-8 lg:flex">
+              <div class="w-full">
+                <label class="block text-base">
+                  Your Name
+                </label>
+                <input type="text"
+                  class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
+                  placeholder="Your Name"
+                  id="name"
+                  name="name"/>
+              </div>
+              <div class="w-full">
+                <label class="block text-base">
+                  Your Number
+                </label>
+                <input type="text"
+                  class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
+                  placeholder="Your Number"
+                  id="number"
+                  name="number"/>
+              </div>
             </div>
-            <div class="w-full">
-              <label class="block text-base">
-                Your Number
-              </label>
-              <input type="text"
-                class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
-                placeholder="Your Number" />
+            <div class="gap-2 mb-8 lg:flex">
+              <div class="w-full">
+                <label class="block text-base">
+                  Table Number
+                </label>
+               
+                  <select class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600" id="tableNo" name="tableNo">
+                    <option value="1">Table 1</option>
+                    <option value="2">Table 2</option>
+                    <option value="3">Table 3</option>
+                    <option value="4">Table 4</option>
+                  </select>
+              </div>
+              <div class="w-full">
+                <label class="block text-base">
+                  Booking Date
+                </label>
+                <input type="date"
+                  class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
+                  placeholder="Your Number"
+                  id="date"
+                  name="date"/>
+              </div>
             </div>
-          </div>
-          <div class="gap-2 mb-8 lg:flex">
-            <div class="w-full">
+            <div class="">
               <label class="block text-base">
-                Table Number
+                Your Message
               </label>
-             
-                <select class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600" id="cars" name="cars">
-                  <option value="volvo">Table 1</option>
-                  <option value="saab">Table 2</option>
-                  <option value="mercedes">Table 3</option>
-                  <option value="audi">Table 4</option>
-                </select>
+              <textarea name="msg" id="msg" rows="4" cols="30"
+                class="w-full text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
+                placeholder="Message"></textarea>
             </div>
-            <div class="w-full">
-              <label class="block text-base">
-                Booking Date
-              </label>
-              <input type="date"
-                class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
-                placeholder="Your Number" />
-            </div>
-          </div>
-          <div class="">
-            <label class="block text-base">
-              Your Message
-            </label>
-            <textarea name="" id="" rows="4" cols="30"
-              class="w-full text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
-              placeholder="Message"></textarea>
-          </div>
-          <button
-            class="px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
-            href="#">
-            Book Now
-          </button>
+            <button
+              class="px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
+              href="#">
+              Book Now
+            </button>
 
+          </div>
         </div>
-      </div>
+      </form>
     </section>
     <footer class="bg-gray-800 border-t border-gray-200">
       <div class="container flex flex-wrap items-center justify-center px-4 py-8 mx-auto lg:justify-between">
@@ -219,6 +227,10 @@
         </div>
       </div>
     </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore-compat.js"></script>
+        <script>document.write('<script type="module" src="index.js?v=' + Date.now() + '"><\/script>');</script>
   </body>
 
 </html>
